@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="emY-id-pEc">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Camera View Controller-->
+        <scene sceneID="Yk2-St-Uzb">
+            <objects>
+                <viewController id="emY-id-pEc" customClass="CameraViewController" customModule="HomieSports" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1h4-GF-Jaj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="03p-Jy-tOD" customClass="CameraView" customModule="HomieSports" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="400"/>
+                                <color key="backgroundColor" systemColor="systemBrownColor" red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="DvS-Xr-jI1"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JHh-0u-xwE">
+                                <rect key="frame" x="96" y="480" width="55" height="30"/>
+                                <state key="normal" title="Resume"/>
+                                <connections>
+                                    <action selector="resumeInterruptedSession:" destination="emY-id-pEc" eventType="touchUpInside" id="MBR-kw-ETK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTJ-H9-Eao">
+                                <rect key="frame" x="30" y="480" width="41" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <state key="normal" title="Photo"/>
+                                <connections>
+                                    <action selector="capturePhoto:" destination="emY-id-pEc" eventType="touchUpInside" id="atH-to-Do8"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="JHh-0u-xwE" firstAttribute="top" secondItem="03p-Jy-tOD" secondAttribute="bottom" constant="30" id="7Ff-01-USH"/>
+                            <constraint firstItem="03p-Jy-tOD" firstAttribute="leading" secondItem="7I6-jJ-khu" secondAttribute="leading" id="BU2-tZ-RiB"/>
+                            <constraint firstItem="kTJ-H9-Eao" firstAttribute="top" secondItem="03p-Jy-tOD" secondAttribute="bottom" constant="25" id="CtY-cL-kri"/>
+                            <constraint firstItem="7I6-jJ-khu" firstAttribute="trailing" secondItem="03p-Jy-tOD" secondAttribute="trailing" id="HRt-wa-Cad"/>
+                            <constraint firstItem="JHh-0u-xwE" firstAttribute="leading" secondItem="kTJ-H9-Eao" secondAttribute="trailing" constant="25" id="Sax-ld-dMb"/>
+                            <constraint firstItem="kTJ-H9-Eao" firstAttribute="leading" secondItem="7I6-jJ-khu" secondAttribute="leading" constant="30" id="gJd-O0-PuJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="7I6-jJ-khu"/>
+                    </view>
+                    <connections>
+                        <outlet property="cameraView" destination="03p-Jy-tOD" id="6kf-Hp-V1p"/>
+                        <outlet property="photoButton" destination="kTJ-H9-Eao" id="bkf-bc-zjc"/>
+                        <outlet property="resumeButton" destination="JHh-0u-xwE" id="qHm-v2-dFq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W3N-MY-L54" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="qfE-2j-AOk"/>
+            </objects>
+            <point key="canvasLocation" x="-52.173913043478265" y="-79.017857142857139"/>
+        </scene>
+    </scenes>
+</document>
