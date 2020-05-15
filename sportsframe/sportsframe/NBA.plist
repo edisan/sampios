@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PlayerDetails</key>
+	<string>https://api.sportsdata.io/v3/nba/scores/json/Player/</string>
+	<key>ActivePlayers</key>
+	<string>https://api.sportsdata.io/v3/nba/scores/json/Players</string>
+	<key>Svc_Key</key>
+	<string>Fill in your sportsdata Service Key</string>
+</dict>
+</plist>
