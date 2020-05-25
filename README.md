@@ -10,3 +10,5 @@ This sample utilizes REST api to make call to sportsdata for player information.
 ### Sports REST API Sample (sportsframe)
 This sample shows how to utilize Framework to build an abstraction to make sportsdata REST API calls.  A valid Service Key from sportsdata is required to authenticate the REST call.
 
+### Face Recognition Vision Sample (edentify)
+This sample shows how to utilize Vision Framework to recognize a face.  The majority of code was extracted from Apple's sample VisionFaceTrack, with modifications to add face recognition.
