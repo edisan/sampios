@@ -1,4 +1,8 @@
 //
+// NOTE: The code derived here was pulled from Apple's VisionFaceTrack sample
+//       Updates were made to add face recognition of author and Manny Pacquiao.  Doing so allowed
+//       understanding of the code involved to make use of Vision.
+//
 //  AppDelegate.swift
 //  edentify
 //

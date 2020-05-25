@@ -1,4 +1,10 @@
 //
+// NOTE: The code derived here was pulled from Apple's VisionFaceTrack sample
+//       Updates were made to add face recognition of author and Pacquiao.  Doing so allowed
+//       understanding of the code involved to make use of Vision.
+//       CreateML was used to train/test the model on 2 sets of images.  To use code as is, update
+//       the mlmodel with your own to recognize your face/others.
+//
 //  CaptureViewController.swift
 //  edentify
 //
@@ -14,7 +20,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
     
     // Capture view content
     @IBOutlet weak var capturePreviewView: UIView!
-    
+        
     // AVCapture data
     var session: AVCaptureSession?
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -51,6 +57,10 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
         // prepare vision
         self.prepareVisionRequest()
         
+        // setup face recognition
+        setupFaceRecognitionOverlay()
+        setupFaceRecognition()
+        
         // start capture session
         self.session?.startRunning()
     }
@@ -84,6 +94,7 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
             let inputDevice = try self.configureFrontCamera(for: captureSession)
             self.configureCaptureOutput(for: inputDevice.device, resolution: inputDevice.resolution, captureSession: captureSession)
             self.designatePreviewLayer(for: captureSession)
+            
             return captureSession
         }
         catch let executionError as NSError {
@@ -584,5 +595,121 @@ class CaptureViewController: UIViewController, AVCaptureVideoDataOutputSampleBuf
                 NSLog("Failed to perform FaceLandmarkRequest: %@", error)
             }
         }
+        
+        // perform face recognition (ed's face)
+        let faceRecognitionRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: exifOrientation, options: [:])
+        do {
+            try faceRecognitionRequestHandler.perform(self.faceRecognitionRequests)
+        }
+        catch {
+            print("Face recognition failed: \(error)")
+        }
+    }
+    
+    // MARK: Face Recognition
+    
+    private var faceRecognitionRequests = [VNRequest]()
+    private var faceRecognitionOverlay: CALayer! = nil
+    
+    /**
+     * Setup face recognition request
+     */
+    func setupFaceRecognition() -> NSError? {
+        let error: NSError! = nil
+        
+        guard let modelURL = Bundle.main.url(forResource: "EdentifyClassifier", withExtension: "mlmodelc") else {
+            return NSError(domain: "CaptureViewController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Model file missing"])
+        }
+        
+        do {
+            let faceModel = try VNCoreMLModel(for: MLModel(contentsOf: modelURL))
+            let faceRecognition = VNCoreMLRequest(model: faceModel, completionHandler: { (request, error) in
+                DispatchQueue.main.async {
+                    if let results = request.results {
+                        self.drawFaceRecognitionResults(results)
+                    }
+                }
+            })
+            
+            self.faceRecognitionRequests = [faceRecognition]
+        }
+        catch let error as NSError {
+            print("Model loading failed: \(error)")
+        }
+        
+        return error
+    }
+    
+    /**
+     * Setup face recognition layer for classification results
+     */
+    func setupFaceRecognitionOverlay() {
+        let captureDeviceResolution = self.captureDeviceResolution
+        
+        let captureDeviceBounds = CGRect(x: 0, y: 0, width: captureDeviceResolution.width, height: captureDeviceResolution.height)
+        
+        let captureDeviceBoundsCenterPoint = CGPoint(x: captureDeviceBounds.midX, y: captureDeviceBounds.midY)
+        
+        let normalizedCenterPoint = CGPoint(x: 0.5, y: 0.5)
+        
+        faceRecognitionOverlay = CALayer()
+        faceRecognitionOverlay.name = "FaceRecognitionOverlay"
+        faceRecognitionOverlay.bounds = captureDeviceBounds
+        faceRecognitionOverlay.position = captureDeviceBoundsCenterPoint
+        faceRecognitionOverlay.anchorPoint = normalizedCenterPoint
+        
+        detectedFaceRectangleShapeLayer!.addSublayer(faceRecognitionOverlay)
+    }
+    
+    /**
+     * Draw the classification results with text layer to label face recognized
+     */
+    func drawFaceRecognitionResults(_ results: [Any]) {
+        CATransaction.begin()
+        CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
+        
+        // remove old face recognized text
+        faceRecognitionOverlay!.sublayers = nil
+        
+        // select only label with highest confidence
+        for observation in results {
+            guard let faceRecognitionObservation = observation as? VNClassificationObservation else {
+                return
+            }
+            
+            let identifier = faceRecognitionObservation.identifier
+            let confidence = faceRecognitionObservation.confidence
+            if confidence > 0.8 {
+                print("recognized id: \(identifier) confidence: \(confidence)")
+                
+                let bounds = detectedFaceRectangleShapeLayer!.bounds
+                let textLayer = self.createTextSubLayerInBounds(bounds, identifier: identifier, confidence: confidence)
+                faceRecognitionOverlay!.addSublayer(textLayer)
+            }
+        }
+
+        CATransaction.commit()
+    }
+    
+    /**
+     * Create the text layer with label/confidence level
+     */
+    func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: VNConfidence) -> CATextLayer {
+        let textLayer = CATextLayer()
+        textLayer.name = "Face Label"
+        let confidenceString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence: %.4f", confidence))
+        let largeFont = UIFont(name: "Helvetica", size: 30.0)!
+        confidenceString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count+15))
+        textLayer.string = confidenceString.string
+        textLayer.bounds = CGRect(x: 0, y: 0, width: bounds.width/2, height: bounds.height/2)
+        textLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+        textLayer.shadowOpacity = 0.7
+        textLayer.shadowOffset = CGSize(width: 2, height: 2)
+        textLayer.alignmentMode = .center
+        textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
+        textLayer.contentsScale = 2.0
+        textLayer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 360.0)).scaledBy(x: 1.0, y: -1.0))
+        
+        return textLayer
     }
 }
