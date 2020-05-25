@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		884A7C9F2479C9CE003C2A81 /* EdentifyClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 884A7C9E2479C9CD003C2A81 /* EdentifyClassifier.mlmodel */; };
+		884A7CA3247C43DC003C2A81 /* EdentifyClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 884A7CA2247C43DC003C2A81 /* EdentifyClassifier.mlmodel */; };
 		88525EE8246E55F100FF2781 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88525EE7246E55F100FF2781 /* AppDelegate.swift */; };
 		88525EEE246E55F300FF2781 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88525EED246E55F300FF2781 /* Assets.xcassets */; };
 		88525EF1246E55F300FF2781 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88525EF0246E55F300FF2781 /* Preview Assets.xcassets */; };
@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		884A7C9E2479C9CD003C2A81 /* EdentifyClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = EdentifyClassifier.mlmodel; path = ../../edclassifier/EdImageClassifier.mlproj/Models/EdentifyClassifier.mlmodel; sourceTree = "<group>"; };
+		884A7CA2247C43DC003C2A81 /* EdentifyClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = EdentifyClassifier.mlmodel; sourceTree = "<group>"; };
 		88525EE4246E55F100FF2781 /* edentify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = edentify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88525EE7246E55F100FF2781 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88525EED246E55F300FF2781 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		88525EE6246E55F100FF2781 /* edentify */ = {
 			isa = PBXGroup;
 			children = (
-				884A7C9E2479C9CD003C2A81 /* EdentifyClassifier.mlmodel */,
+				884A7CA2247C43DC003C2A81 /* EdentifyClassifier.mlmodel */,
 				88525EE7246E55F100FF2781 /* AppDelegate.swift */,
 				88525EFB2471B35300FF2781 /* Main.storyboard */,
 				88525EFD2471B45B00FF2781 /* CaptureViewController.swift */,
@@ -151,7 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				88525EE8246E55F100FF2781 /* AppDelegate.swift in Sources */,
-				884A7C9F2479C9CE003C2A81 /* EdentifyClassifier.mlmodel in Sources */,
+				884A7CA3247C43DC003C2A81 /* EdentifyClassifier.mlmodel in Sources */,
 				88525EFE2471B45B00FF2781 /* CaptureViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
